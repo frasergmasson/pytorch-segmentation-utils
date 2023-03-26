@@ -11,4 +11,4 @@ def calculate_class_weights(train_set,n_labels):
 
   total_pixels = np.sum(n_pixels)
   weights = total_pixels / n_pixels
-  return weights / np.sum(weights)
+  return torch.Tensor(weights / np.sum(weights))

@@ -7,7 +7,10 @@ def pixel_accuracy(prediction,truth):
 def pixel_accuracy_for_class(prediction,truth,label):
   label_indices = truth == label
   correct = (prediction[label_indices] == truth[label_indices]).sum()
-  return (correct/(label_indices).sum()).item()
+  total = label_indices.sum()
+  if total == 0:
+    return None
+  return (correct/total).item()
 
 def pixel_accuracy_all_classes(prediction,truth,n_labels):
   return np.array([pixel_accuracy_for_class(prediction,truth,label) for label in range(n_labels)])
@@ -16,6 +19,8 @@ def iou_for_class(prediction,truth,label):
   class_indices = truth == label
   intersect = (prediction[class_indices] == label).sum()
   union = class_indices.sum() + (prediction == label).sum() - intersect
+  if union == 0:
+    return None
   return (intersect/union).item()
 
 def iou_all_classes(prediction,truth,n_labels):
@@ -27,7 +32,10 @@ def f1(prediction,truth,label):
   tp = (truth[positive_indices] == prediction[positive_indices]).sum().item()
   fp = (truth[negative_indices] != prediction[negative_indices]).sum().item()
   fn = (truth[positive_indices] != prediction[positive_indices]).sum().item()
-  return (2*tp)/(2*tp + fp + fn)
+  denominator = 2*tp + fp + fn
+  if denominator == 0:
+    return None
+  return (2*tp)/denominator
 
 def f1_all_classes(prediction,truth,n_labels):
   return np.array([f1(prediction,truth,label) for label in range(n_labels)])

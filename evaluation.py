@@ -13,7 +13,7 @@ def pixel_accuracy_for_class(prediction,truth,label):
   return (correct/total).item()
 
 def pixel_accuracy_all_classes(prediction,truth,n_labels):
-  return np.array([pixel_accuracy_for_class(prediction,truth,label) for label in range(n_labels)])
+  return [pixel_accuracy_for_class(prediction,truth,label) for label in range(n_labels)]
 
 def iou_for_class(prediction,truth,label):
   class_indices = truth == label
@@ -24,7 +24,7 @@ def iou_for_class(prediction,truth,label):
   return (intersect/union).item()
 
 def iou_all_classes(prediction,truth,n_labels):
-  return np.array([iou_for_class(prediction,truth,label) for label in range(n_labels)])
+  return [iou_for_class(prediction,truth,label) for label in range(n_labels)]
 
 def f1(prediction,truth,label):
   positive_indices = truth == label
@@ -38,7 +38,7 @@ def f1(prediction,truth,label):
   return (2*tp)/denominator
 
 def f1_all_classes(prediction,truth,n_labels):
-  return np.array([f1(prediction,truth,label) for label in range(n_labels)])
+  return [f1(prediction,truth,label) for label in range(n_labels)]
 
 
 class MetricManager():
@@ -52,12 +52,12 @@ class MetricManager():
   def add_metric(self,name,function,**keywords):
     self.functions[name] = function
     self.function_keywords[name] = keywords
-    self.stats[name] = np.array([])
+    self.stats[name] = []
 
   def crunch(self,*args):
     for name in self.functions.keys():
       result = self.functions[name](*args,**self.function_keywords[name])
-      self.stats[name] = np.append(self.stats[name],result)
+      self.stats[name] = self.stats[name].append(result)
 
   def get_metric(self,name):
-    return self.stats[name]
+    return np.array(self.stats[name])

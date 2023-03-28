@@ -1,4 +1,6 @@
 import numpy as np
+import torch
+
 #Evaluation metrics
 def pixel_accuracy(prediction,truth):
   correct = (prediction==truth).sum().item()
@@ -54,9 +56,11 @@ class MetricManager():
     self.function_keywords[name] = keywords
     self.stats[name] = []
 
-  def crunch(self,*args):
+  def crunch(self,prediction,truth):
+    label_pred = torch.argmax(prediction,1)
+    label_truth = torch.argmax(truth,1) 
     for name in self.functions.keys():
-      result = self.functions[name](*args,**self.function_keywords[name])
+      result = self.functions[name](label_pred,label_truth,**self.function_keywords[name])
       self.stats[name].append(result)
 
   def get_metric(self,name):

@@ -40,15 +40,17 @@ class MetricManager():
 
   def __init__(self):
     self.functions = {}
+    self.function_keywords = {}
     self.stats = {}
 
-  def add_metric(self,name,function):
+  def add_metric(self,name,function,**keywords):
     self.functions[name] = function
+    self.function_keywords[name] = keywords
     self.stats[name] = np.array([])
 
-  def crunch(self,*args,**keywords):
+  def crunch(self,*args):
     for name in self.functions.keys():
-      result = self.functions[name](*args,**keywords)
+      result = self.functions[name](*args,**self.function_keywords[name])
       self.stats[name] = np.append(self.stats[name],result)
 
   def get_metric(self,name):

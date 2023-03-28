@@ -57,7 +57,7 @@ class MetricManager():
   def crunch(self,*args):
     for name in self.functions.keys():
       result = self.functions[name](*args,**self.function_keywords[name])
-      self.stats[name] = self.stats[name].append(result)
+      self.stats[name].append(result)
 
   def get_metric(self,name):
     return np.array(self.stats[name])

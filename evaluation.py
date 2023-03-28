@@ -10,8 +10,7 @@ def pixel_accuracy_for_class(prediction,truth,label):
   return (correct/(label_indices).sum()).item()
 
 def pixel_accuracy_all_classes(prediction,truth,n_labels):
-  for label in range(n_labels):
-    return pixel_accuracy_for_class(prediction,truth,label)
+  return np.array([pixel_accuracy_for_class(prediction,truth,label) for label in range(n_labels)])
 
 def iou_for_class(prediction,truth,label):
   class_indices = truth == label
@@ -20,8 +19,7 @@ def iou_for_class(prediction,truth,label):
   return (intersect/union).item()
 
 def iou_all_classes(prediction,truth,n_labels):
-  for label in range(n_labels):
-    return iou_for_class(prediction,truth,label)
+  return np.array([iou_for_class(prediction,truth,label) for label in range(n_labels)])
 
 def f1(prediction,truth,label):
   positive_indices = truth == label
@@ -32,8 +30,8 @@ def f1(prediction,truth,label):
   return (2*tp)/(2*tp + fp + fn)
 
 def f1_all_classes(prediction,truth,n_labels):
-  for label in range(n_labels):
-    return f1(prediction,truth,label)
+  return np.array([f1(prediction,truth,label) for label in range(n_labels)])
+
 
 class MetricManager():
   #All metric functions must take same arguments

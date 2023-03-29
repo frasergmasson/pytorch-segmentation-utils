@@ -56,7 +56,7 @@ class MetricManager():
     self.function_keywords[name] = keywords
     self.stats[name] = []
 
-  def crunch(self,prediction,truth):
+  def apply_metrics(self,prediction,truth):
     label_pred = torch.argmax(prediction,1)
     label_truth = torch.argmax(truth,1) 
     for name in self.functions.keys():

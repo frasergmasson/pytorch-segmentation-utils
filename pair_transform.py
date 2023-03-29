@@ -25,8 +25,12 @@ class PairTransform:
   def __call__(self,image,mask):
     if random.random() < self.probability:
       args = self.random_transform.get_params(**self.random_keywords)
-      transformed_image = self.functional_transform(image,*args,**self.functional_keywords)
-      transformed_mask = self.functional_transform(mask,*args,**self.functional_keywords)
+      if type(args) is list:
+        transformed_image = self.functional_transform(image,*args,**self.functional_keywords)
+        transformed_mask = self.functional_transform(mask,*args,**self.functional_keywords)
+      else:
+        transformed_image = self.functional_transform(image,args,**self.functional_keywords)
+        transformed_mask = self.functional_transform(mask,args,**self.functional_keywords)
       return transformed_image,transformed_mask
     else:
       return image,mask

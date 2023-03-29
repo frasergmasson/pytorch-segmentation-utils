@@ -15,22 +15,16 @@ class FunctionalPairTransform:
       return image,mask
 
 class PairTransform:
-  def __init__(self,random_transform,functional_transform,probability=1.0,random_keywords=None,functional_keywords=None):
+  def __init__(self,random_transform,functional_transform,probability=1.0,random_keywords={},functional_keywords={}):
     self.random_transform = random_transform
     self.functional_transform = functional_transform
     self.random_keywords = random_keywords
     self.functional_keywords = functional_keywords
     self.probability = probability
-
-  def random_keywords(self,**keywords):
-    self.random_keywords = keywords
-
-  def functional_keywords(self,**keywords):
-    self.functional_keywords = keywords
   
   def __call__(self,image,mask):
     if random.random() < self.probability:
-      args = self.random_transform.get_params(image,**self.random_keywords)
+      args = self.random_transform.get_params(**self.random_keywords)
       transformed_image = self.functional_transform(image,*args,**self.functional_keywords)
       transformed_mask = self.functional_transform(mask,*args,**self.functional_keywords)
       return transformed_image,transformed_mask

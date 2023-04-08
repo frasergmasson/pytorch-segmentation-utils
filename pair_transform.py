@@ -16,7 +16,8 @@ class FunctionalPairTransform:
 
 class PairTransform:
   def __init__(self,random_transform,functional_transform,
-               probability=1.0,random_keywords={},functional_keywords={}):
+               probability=1.0,
+               random_keywords={},functional_keywords={}):
     self.random_transform = random_transform
     self.functional_transform = functional_transform
     self.random_keywords = random_keywords

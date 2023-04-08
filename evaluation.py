@@ -60,7 +60,8 @@ class MetricManager():
     label_pred = torch.argmax(prediction,1)
     label_truth = torch.argmax(truth,1) 
     for name in self.functions.keys():
-      result = self.functions[name](label_pred,label_truth,**self.function_keywords[name])
+      result = self.functions[name](
+        label_pred,label_truth,**self.function_keywords[name])
       self.stats[name].append(result)
 
   def get_metric(self,name):

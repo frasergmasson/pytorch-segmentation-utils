@@ -48,10 +48,11 @@ def f1_all_classes(prediction,truth,n_labels):
 class MetricManager():
   #All metric functions must take same arguments
 
-  def __init__(self):
+  def __init__(self,labels):
     self.functions = {}
     self.function_keywords = {}
     self.stats = {}
+    self.labels = labels
 
   def add_metric(self,name,function,**keywords):
     self.functions[name] = function
@@ -69,9 +70,10 @@ class MetricManager():
   def get_metric(self,name):
     return np.array(self.stats[name])
   
-  def pretty_print_metric(self,name,index,labels):
+  #Pretty print specific metric result 
+  def pp_metric(self,name,index):
     data = self.stats[name][index]
     if len(data) <= 1:
       return data
     
-    return "\n"+"\n".join([f"{INDENT}{l}: {d}" for d,l in zip(data,labels)])
+    return "\n"+"\n".join([f"{INDENT}{l}: {d}" for d,l in zip(data,self.labels)])

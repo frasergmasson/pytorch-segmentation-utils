@@ -73,7 +73,7 @@ class MetricManager():
   #Pretty print specific metric result 
   def pp_metric(self,name,index):
     data = self.stats[name][index]
-    if len(data) <= 1:
+    if not isinstance(data,list):
       return data
     
     return "\n"+"\n".join([f"{INDENT}{l}: {d}" for d,l in zip(data,self.labels)])

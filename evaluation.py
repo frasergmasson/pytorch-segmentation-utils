@@ -1,6 +1,8 @@
 import numpy as np
 import torch
 
+INDENT = " " * 4
+
 #Evaluation metrics
 def pixel_accuracy(prediction,truth):
   correct = (prediction==truth).sum().item()
@@ -66,3 +68,10 @@ class MetricManager():
 
   def get_metric(self,name):
     return np.array(self.stats[name])
+  
+  def pretty_print_metric(self,name,index,labels):
+    data = self.stats[name][index]
+    if len(data) <= 1:
+      return data
+    
+    return "\n"+"\n".join([f"{INDENT}{l}: {d}" for d,l in zip(data,labels)])

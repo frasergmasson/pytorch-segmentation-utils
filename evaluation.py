@@ -24,6 +24,8 @@ def true_positive_all_positive_classwise(prediction,truth,label):
     return None
   return correct,total
 
+def tp_ap_all_classes(prediction,truth,n_labels):
+  return [true_positive_all_positive_classwise(prediction,truth,label) for label in range(n_labels)]
 
 def pixel_accuracy_all_classes(prediction,truth,n_labels):
   return [pixel_accuracy_for_class(prediction,truth,label) for label in range(n_labels)]
@@ -43,6 +45,9 @@ def intersect_union_classwise(prediction,truth,label):
   if union == 0:
     return None
   return intersect,union
+
+def in_union_all_classes(prediction,truth,n_labels):
+  return [intersect_union_classwise(prediction,truth,label) for label in range(n_labels)]
 
 def iou_all_classes(prediction,truth,n_labels):
   return [iou_for_class(prediction,truth,label) for label in range(n_labels)]
@@ -68,6 +73,9 @@ def tp_fp_fn_classwise(prediction,truth,label):
   if denominator == 0:
     return None
   return tp,fp,fn
+
+def tp_fp_fn_classwise(prediction,truth,n_labels):
+  return [tp_fp_fn_classwise(prediction,truth,label) for label in range(n_labels)]
 
 def f1_all_classes(prediction,truth,n_labels):
   return [f1(prediction,truth,label) for label in range(n_labels)]

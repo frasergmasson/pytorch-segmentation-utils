@@ -22,7 +22,7 @@ def true_positive_all_positive_classwise(prediction,truth,label):
   total = label_indices.sum()
   if total == 0:
     return None
-  return correct,total
+  return correct.item(),total.item()
 
 def tp_ap_all_classes(prediction,truth,n_labels):
   return [true_positive_all_positive_classwise(prediction,truth,label) for label in range(n_labels)]
@@ -44,7 +44,7 @@ def intersect_union_classwise(prediction,truth,label):
   union = class_indices.sum() + (prediction == label).sum() - intersect
   if union == 0:
     return None
-  return intersect,union
+  return intersect.item(),union.item()
 
 def in_union_all_classes(prediction,truth,n_labels):
   return [intersect_union_classwise(prediction,truth,label) for label in range(n_labels)]

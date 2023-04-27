@@ -74,7 +74,7 @@ def tp_fp_fn_classwise(prediction,truth,label):
     return None
   return tp,fp,fn
 
-def tp_fp_fn_classwise(prediction,truth,n_labels):
+def tp_fp_fn_all_classes(prediction,truth,n_labels):
   return [tp_fp_fn_classwise(prediction,truth,label) for label in range(n_labels)]
 
 def f1_all_classes(prediction,truth,n_labels):

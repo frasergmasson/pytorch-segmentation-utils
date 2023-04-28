@@ -74,6 +74,15 @@ def tp_fp_fn_classwise(prediction,truth,label):
     return None
   return tp,fp,fn
 
+def confusions(prediction,truth,n_labels):
+  class_confusions = np.zeros((n_labels,n_labels))
+  for truth_label in range(n_labels):
+    label_indices = truth == truth_label
+    for prediction_label in range(n_labels):
+      n_confusions = (prediction[label_indices] == prediction_label).sum().item()
+      class_confusions[truth_label,prediction_label] += n_confusions
+  return class_confusions
+
 def tp_fp_fn_all_classes(prediction,truth,n_labels):
   return [tp_fp_fn_classwise(prediction,truth,label) for label in range(n_labels)]
 
